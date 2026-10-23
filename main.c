@@ -20,7 +20,7 @@ void parse_arguments(int argc, char **argv, arguments *args){
     args->files_count = index;
 }
 #define MAX_LEN 128
-void read_file(char *path, char **buffer){
+void read_file(char *path, char **buffer, int ** buffer_size){
     int tmp_capacity = MAX_LEN;
     char *tmp = malloc(tmp_capacity*sizeof(char));
     if(tmp == NULL){
@@ -50,6 +50,7 @@ void read_file(char *path, char **buffer){
     }while(size > 0);
     fclose(f);
     tmp[tmp_size] = '\0';
+    *buffer_size = &tmp_size;
     *buffer = tmp;
 }
 int main(int argc, char **argv){
@@ -57,8 +58,10 @@ int main(int argc, char **argv){
     parse_arguments(argc, argv, &args);
     printf("%d\n", args.files_count);
     char* buffer = NULL;
-    read_file("main.c", &buffer);
-    printf("%s", buffer);
+    int* buffer_size = NULL;
+    read_file("main.c", &buffer, &buffer_size);
+    printf("%s\n", buffer);
+    printf("%d\n", *buffer_size);
     free(buffer);
     return 0;
 }
