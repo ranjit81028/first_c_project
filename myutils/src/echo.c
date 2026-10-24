@@ -32,6 +32,6 @@ int main(int argc, char *argv[]) {
     for (int i = 1; i < args.argument_count; i++) {
         printf("%s ", args.arguments[i]);
     }
-    putchar('\0');
+    putchar('\n');
     return 0;
 }
