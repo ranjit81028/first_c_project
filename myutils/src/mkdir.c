@@ -1,19 +1,22 @@
-
 #include <stdio.h>
 #include <sys/stat.h>
 
 int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        fprintf(stderr, "Usage: %s <directory>\n", argv[0]);
+    if (argc == 1) {
+        fprintf(stderr, "Usage: %s <directory>...\n", argv[0]);
         return 1;
     }
 
-    int res = mkdir(argv[1], 0755);
+    int status = 0;
 
-    if (res == -1) {
-        perror(argv[1]);
-        return 1;
+    for (int i = 1; i < argc; i++) {
+        int res = mkdir(argv[i], 0755);
+
+        if (res == -1) {
+            perror(argv[i]);
+            status = 1;
+        }
     }
 
-    return 0;
+    return status;
 }
